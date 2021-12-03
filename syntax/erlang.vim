@@ -74,6 +74,7 @@ syn match erlangLocalFuncCall  '\<\a[[:alnum:]_@]*\>\%(\%(\s\|\n\|%.*\n\)*(\)\@=
 syn match erlangLocalFuncRef   '\<\a[[:alnum:]_@]*\>\%(\%(\s\|\n\|%.*\n\)*/\)\@='
 syn match erlangGlobalFuncCall '\<\%(\a[[:alnum:]_@]*\%(\s\|\n\|%.*\n\)*\.\%(\s\|\n\|%.*\n\)*\)*\a[[:alnum:]_@]*\%(\s\|\n\|%.*\n\)*:\%(\s\|\n\|%.*\n\)*\a[[:alnum:]_@]*\>\%(\%(\s\|\n\|%.*\n\)*(\)\@=' contains=erlangComment,erlangVariable,erlangUnusedVariable
 syn match erlangGlobalFuncRef  '\<\%(\a[[:alnum:]_@]*\%(\s\|\n\|%.*\n\)*\.\%(\s\|\n\|%.*\n\)*\)*\a[[:alnum:]_@]*\%(\s\|\n\|%.*\n\)*:\%(\s\|\n\|%.*\n\)*\a[[:alnum:]_@]*\>\%(\%(\s\|\n\|%.*\n\)*/\)\@=' contains=erlangComment,erlangVariable,erlangUnusedVariable
+syn match erlangLocalFuncDec  '^\<\a[[:alnum:]_@]*\>\%(\%(\s\|\n\|%.*\n\)*(\)\@=' contains=erlangBIF
 
 " Variables, macros, records, maps
 syn match erlangVariable '\<[A-Z_][[:alnum:]_@]*'
@@ -99,6 +100,10 @@ syn match erlangRecordDef '^\s*-\%(\s\|\n\|%.*\n\)*record\>' contains=erlangComm
 syn match erlangDefine    '^\s*-\%(\s\|\n\|%.*\n\)*\%(define\|undef\)\>' contains=erlangComment
 syn match erlangPreCondit '^\s*-\%(\s\|\n\|%.*\n\)*\%(ifdef\|ifndef\|else\|endif\)\>' contains=erlangComment
 syn match erlangType      '^\s*-\%(\s\|\n\|%.*\n\)*\%(spec\|type\|opaque\|callback\)\>' contains=erlangComment
+
+" Specs
+syn match erlangSpec '^-spec'
+syn match specLine '^-spec.*\.' contains=erlangSpec
 
 " Keywords
 syn keyword erlangKeyword after begin case catch cond end fun if let of
@@ -187,7 +192,8 @@ endif
 " Atoms, functions, variables, macros
 if s:old_style
 hi def link erlangAtom Normal
-hi def link erlangLocalFuncCall Function
+hi def link erlangLocalFuncDec Function
+hi def link erlangLocalFuncCall Normal
 hi def link erlangLocalFuncRef Normal
 hi def link erlangGlobalFuncCall Function
 hi def link erlangGlobalFuncRef Function
@@ -200,13 +206,15 @@ hi def link erlangQuotedRecord Normal
 hi def link erlangMap Normal
 else
 hi def link erlangAtom String
-hi def link erlangLocalFuncCall Function
+hi def link erlangLocalFuncDec Function
+hi def link erlangLocalFuncCall Normal
 hi def link erlangLocalFuncRef Normal
 hi def link erlangGlobalFuncCall Normal
 hi def link erlangGlobalFuncRef Normal
 hi def link erlangUnusedVariable Comment
-hi def link erlangVariable Identifier
-hi def link erlangMacro Macro
+hi def link erlangVariable Normal
+" hi def link erlangMacro Macro
+hi def link erlangMacro Constant
 hi def link erlangQuotedMacro Macro
 hi def link erlangRecord Structure
 hi def link erlangQuotedRecord Structure
@@ -217,6 +225,10 @@ endif
 if !s:old_style
 hi def link erlangBitType Type
 endif
+
+" Specs
+hi def link specLine Comment
+hi def link erlangSpec Identifier
 
 " Constants and Directives
 if s:old_style
