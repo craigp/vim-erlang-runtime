@@ -72,11 +72,12 @@ syn match erlangAtom           '\<\l[[:alnum:]_@]*' contains=erlangBoolean
 syn keyword erlangBoolean      true false contained
 syn match erlangLocalFuncCall  '\<\a[[:alnum:]_@]*\>\%(\%(\s\|\n\|%.*\n\)*(\)\@=' contains=erlangBIF
 syn match erlangLocalFuncRef   '\<\a[[:alnum:]_@]*\>\%(\%(\s\|\n\|%.*\n\)*/\)\@='
-syn match erlangGlobalFuncCall '\<\%(\a[[:alnum:]_@]*\%(\s\|\n\|%.*\n\)*\.\%(\s\|\n\|%.*\n\)*\)*\a[[:alnum:]_@]*\%(\s\|\n\|%.*\n\)*:\%(\s\|\n\|%.*\n\)*\a[[:alnum:]_@]*\>\%(\%(\s\|\n\|%.*\n\)*(\)\@=' contains=erlangComment,erlangVariable
-syn match erlangGlobalFuncRef  '\<\%(\a[[:alnum:]_@]*\%(\s\|\n\|%.*\n\)*\.\%(\s\|\n\|%.*\n\)*\)*\a[[:alnum:]_@]*\%(\s\|\n\|%.*\n\)*:\%(\s\|\n\|%.*\n\)*\a[[:alnum:]_@]*\>\%(\%(\s\|\n\|%.*\n\)*/\)\@=' contains=erlangComment,erlangVariable
+syn match erlangGlobalFuncCall '\<\%(\a[[:alnum:]_@]*\%(\s\|\n\|%.*\n\)*\.\%(\s\|\n\|%.*\n\)*\)*\a[[:alnum:]_@]*\%(\s\|\n\|%.*\n\)*:\%(\s\|\n\|%.*\n\)*\a[[:alnum:]_@]*\>\%(\%(\s\|\n\|%.*\n\)*(\)\@=' contains=erlangComment,erlangVariable,erlangUnusedVariable
+syn match erlangGlobalFuncRef  '\<\%(\a[[:alnum:]_@]*\%(\s\|\n\|%.*\n\)*\.\%(\s\|\n\|%.*\n\)*\)*\a[[:alnum:]_@]*\%(\s\|\n\|%.*\n\)*:\%(\s\|\n\|%.*\n\)*\a[[:alnum:]_@]*\>\%(\%(\s\|\n\|%.*\n\)*/\)\@=' contains=erlangComment,erlangVariable,erlangUnusedVariable
 
 " Variables, macros, records, maps
 syn match erlangVariable '\<[A-Z_][[:alnum:]_@]*'
+syn match erlangUnusedVariable '\<_[A-Z_][[:alnum:]_@]*'
 syn match erlangMacro    '??\=[[:alnum:]_@]\+'
 syn match erlangMacro    '\%(-define(\)\@<=[[:alnum:]_@]\+'
 syn region erlangQuotedMacro         start=/??\=\s*'/ end=/'/ contains=erlangQuotedAtomModifier
@@ -186,10 +187,11 @@ endif
 " Atoms, functions, variables, macros
 if s:old_style
 hi def link erlangAtom Normal
-hi def link erlangLocalFuncCall Normal
+hi def link erlangLocalFuncCall Function
 hi def link erlangLocalFuncRef Normal
 hi def link erlangGlobalFuncCall Function
 hi def link erlangGlobalFuncRef Function
+hi def link erlangUnusedVariable Comment
 hi def link erlangVariable Normal
 hi def link erlangMacro Normal
 hi def link erlangQuotedMacro Normal
@@ -198,10 +200,11 @@ hi def link erlangQuotedRecord Normal
 hi def link erlangMap Normal
 else
 hi def link erlangAtom String
-hi def link erlangLocalFuncCall Normal
+hi def link erlangLocalFuncCall Function
 hi def link erlangLocalFuncRef Normal
 hi def link erlangGlobalFuncCall Normal
 hi def link erlangGlobalFuncRef Normal
+hi def link erlangUnusedVariable Comment
 hi def link erlangVariable Identifier
 hi def link erlangMacro Macro
 hi def link erlangQuotedMacro Macro
